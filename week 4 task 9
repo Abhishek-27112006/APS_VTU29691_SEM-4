@@ -1,0 +1,30 @@
+Given two integer arrays pushed and popped each with distinct values, return true if this could have been the result of a sequence of push and pop operations on an initially empty stack, or false otherwise.
+
+Example 1:
+
+Input: pushed = [1,2,3,4,5], popped = [4,5,3,2,1]
+Output: true
+
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        int popIndex = 0; // Pointer to track the current element to be popped
+        
+        for (int val : pushed) {
+            stack.push(val);
+            
+            // Greedily pop as long as the top of the stack matches the expected popped sequence
+            while (!stack.isEmpty() && stack.peek() == popped[popIndex]) {
+                stack.pop();
+                popIndex++;
+            }
+        }
+        
+        // If the stack is empty, it means all elements were popped in the correct order
+        return stack.isEmpty();
+    }
+}
